@@ -20,23 +20,24 @@ exports.middleware = (store) => (next) => (action) => {
   // the redux `action` object contains a loose `type` string, the
   // 'SESSION_ADD_DATA' type identifier corresponds to an action in which
   // the terminal wants to output information to the GUI.
-  if ('SESSION_ADD_DATA' === action.type) {
+  // if ('SESSION_ADD_DATA' === action.type) {
 
-    // 'SESSION_ADD_DATA' actions hold the output text data in the `data` key.
-    const { data } = action;
-    if (detectWowCommand(data)) {
-      // Here, we are responding to 'wow' being input at the prompt. Since we don't
-      // want the "unknown command" output being displayed to the user, we don't thunk the next
-      // middleware by calling `next(action)`. Instead, we dispatch a new action 'WOW_MODE_TOGGLE'.
-      store.dispatch({
-        type: 'WOW_MODE_TOGGLE'
-      });
-    } else {
-      next(action);
-    }
-  } else {
-    next(action);
-  }
+  //   // 'SESSION_ADD_DATA' actions hold the output text data in the `data` key.
+  //   const { data } = action;
+  //   if (detectWowCommand(data)) {
+  //     // Here, we are responding to 'wow' being input at the prompt. Since we don't
+  //     // want the "unknown command" output being displayed to the user, we don't thunk the next
+  //     // middleware by calling `next(action)`. Instead, we dispatch a new action 'WOW_MODE_TOGGLE'.
+  //     store.dispatch({
+  //       type: 'WOW_MODE_TOGGLE'
+  //     });
+  //   } else {
+  //     next(action);
+  //   }
+  // } else {
+  //   next(action);
+  // }
+  next(action);
 };
 
 // This function performs regex matching on expected shell output for 'wow' being input
@@ -67,7 +68,8 @@ exports.reduceUI = (state, action) => {
 // into the terminal component's properties.
 exports.mapTermsState = (state, map) => {
   return Object.assign(map, {
-    wowMode: state.ui.wowMode
+    // wowMode: state.ui.wowMode
+    wowMode: true
   });
 };
 
@@ -199,6 +201,7 @@ exports.decorateTerm = (Term, { React, notify }) => {
     // 'Shakes' the screen by applying a temporary translation
     // to the terminal container.
     _shake () {
+      return;
       // TODO: Maybe we should do this check in `_onCursorMove`?
       if(!this.props.wowMode) return;
 
